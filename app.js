@@ -1,4 +1,5 @@
-    const inputNota = document.querySelector('#descripcion_nota')
+    const inputTitulo = document.querySelector('#titulo_nota');
+    const inputNota = document.querySelector('#descripcion_nota');
     const buttoNota = document.querySelector('#añadir_nota')
     let notas_generadas = document.querySelector('.notas_generadas')
     let notas = []
@@ -8,23 +9,32 @@
     });
     buttoNota.addEventListener('click', pagina)
     function pagina (){
-        if (!inputNota.value.trim()) return;
-        let nota = {    
-            id: Date.now(),
-            descripcion: inputNota.value,
-            fecha: new Date().toLocaleDateString(),
-            importante: true
-        }
-        notas.push(nota)
-        inputNota.value = ""
-        local_storage();
-        Notas_renderizadas()
+    if (!inputNota.value.trim() && !inputTitulo.value.trim()) return; 
+    let nota = {    
+        id: Date.now(),
+        titulo: inputTitulo.value,
+        descripcion: inputNota.value,
+        fecha: new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }),
+        importante: false 
     }
+    notas.push(nota);
+    inputTitulo.value = "";
+    inputNota.value = "";
+    
+    local_storage();
+    Notas_renderizadas();
+}
 
     function Notas_renderizadas (){
         notas_generadas.innerHTML = ""
         notas.forEach((nota)=>{
             const contenedor = document.createElement("article");
+            const titulo = document.createElement("h3");
+            titulo.innerText = nota.titulo;
+            if (nota.importante) {
+                contenedor.style.borderLeftColor = "#f59e0b";
+                contenedor.style.backgroundColor = "#fffbeb";
+            }
             const texto = document.createElement("p");
             texto.innerText = nota.descripcion;
             const fecha = document.createElement("small");
@@ -45,7 +55,7 @@
                 local_storage();
                 Notas_renderizadas();
             });
-
+            contenedor.appendChild(titulo);
             contenedor.appendChild(texto);
             contenedor.appendChild(fecha);
             contenedor.appendChild(botonImportante);
