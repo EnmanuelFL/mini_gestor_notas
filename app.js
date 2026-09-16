@@ -47,7 +47,6 @@ function renderizarNotas() {
         pDescripcion.innerText = nota.descripcion;
         pDescripcion.title = "Haz clic para expandir o contraer"; 
 
-        // Evento para expandir/contraer el texto al hacer clic
         pDescripcion.addEventListener('click', () => {
             contenedor.classList.toggle('expandida');
         });
