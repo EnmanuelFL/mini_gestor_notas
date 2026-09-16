@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,14 +9,14 @@ body {
     background-color: #0d0d0d;
     color: #ffffff;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column; 
+    align-items: center;    
     padding: 3rem 2rem;
 }
 
 main {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1000px; 
 }
 
 .titulo-principal {
@@ -36,10 +36,10 @@ main {
 
 .tablero {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
     gap: 1.2rem;
 }
- 
+
 .crear_nota, .notas_generadas {
     display: contents;
 }
@@ -51,5 +51,117 @@ article {
     display: flex;
     flex-direction: column;
     min-height: 220px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s ease; 
+}
+
+.tarjeta-crear {
+    background-color: #0d0d0d;
+}
+
+#titulo_nota {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    outline: none;
+    margin-bottom: 0.8rem;
+}
+
+#descripcion_nota {
+    background: transparent;
+    border: none;
+    color: #d1d5db;
+    font-size: 0.95rem;
+    resize: none;
+    outline: none;
+    flex-grow: 1; 
+}
+
+#añadir_nota {
+    align-self: flex-end;
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: auto;
+}
+
+#añadir_nota:hover {
+    background-color: #e5e5e5;
+}
+
+.notas_generadas article {
+    background-color: #18181b;
+}
+
+.notas_generadas h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    word-break: break-word; 
+}
+
+.notas_generadas p {
+    color: #a1a1aa;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    white-space: pre-wrap;
+    word-break: break-word; 
+    flex-grow: 1;
+    
+    display: -webkit-box;
+    -webkit-line-clamp: 4; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.notas_generadas article.expandida p {
+    -webkit-line-clamp: unset; 
+}
+
+.notas_generadas small {
+    display: block;
+    color: #52525b;
+    font-size: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.notas_generadas button {
+    background: transparent;
+    border: 1px solid #3f3f46;
+    color: #a1a1aa;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-bottom: 0.6rem; 
+    transition: all 0.2s;
+}
+
+.notas_generadas button:last-child {
+    margin-bottom: 0; 
+}
+
+.notas_generadas button:hover {
+    background: #27272a;
+    color: #ffffff;
+}
+
+.notas_generadas article.importante {
+    border-color: #fca311;
+}
+
+.notas_generadas article.importante button {
+    color: #fca311;
+    border-color: #fca311;
+}
+
+.notas_generadas article.importante button:hover {
+    background-color: rgba(252, 163, 17, 0.1); 
 }

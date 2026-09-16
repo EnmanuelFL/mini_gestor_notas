@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Mini gesto de notas</title>
+    <title>Gestor de Notas - Enmanuel Feliciano</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
     <main>
-        <h1>Gestor de Notas</h1>
-        <p>By Enmanuel Feliciano</p>
-        <div class="crear_nota">
-            <article>
-                <input id="titulo_nota" type="text" placeholder="Título">
-                <textarea id="descripcion_nota" placeholder="Escribe una nota..."></textarea>
-                <button id="añadir_nota">Añadir nota</button>
-            </article>
-        </div> 
-        <div class="notas_generadas">
-        </div>     
+        <h1 class="titulo-principal">Gestor de Notas</h1>
+        <p class="subtitulo">By Enmanuel Feliciano</p>
+        <div class="tablero">
+            
+            <div class="crear_nota">
+                <article class="tarjeta-crear">
+                    <input id="titulo_nota" type="text" placeholder="Título">
+                    <textarea id="descripcion_nota" placeholder="Escribe una nota..."></textarea>
+                    <button id="añadir_nota">Añadir nota</button>
+                </article>
+            </div> 
+            <div class="notas_generadas">
+            </div>    
+        </div>
     </main>
 <script src="app.js"></script>
 </body>

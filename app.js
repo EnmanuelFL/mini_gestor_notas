@@ -1,77 +1,121 @@
-    const inputTitulo = document.querySelector('#titulo_nota');
-    const inputNota = document.querySelector('#descripcion_nota');
-    const buttoNota = document.querySelector('#añadir_nota')
-    let notas_generadas = document.querySelector('.notas_generadas')
-    let notas = []
+const inputTitulo = document.querySelector('#titulo_nota');
+const inputNota = document.querySelector('#descripcion_nota');
+const botonAñadir = document.querySelector('#añadir_nota');
+const contenedorNotas = document.querySelector('.notas_generadas');
 
-    document.addEventListener("DOMContentLoaded", () => {
-        Configuracion();
-    });
-    buttoNota.addEventListener('click', pagina)
-    function pagina (){
-    if (!inputNota.value.trim() && !inputTitulo.value.trim()) return; 
-    let nota = {    
+let notas = [];
+document.addEventListener("DOMContentLoaded", () => {
+    cargarFromLocalStorage();
+});
+
+botonAñadir.addEventListener('click', crearNuevaNota);
+
+function crearNuevaNota() {
+    const titulo = inputTitulo.value.trim();
+    const descripcion = inputNota.value.trim();
+
+    if (!titulo && !descripcion) return; 
+
+    const nota = {
         id: Date.now(),
-        titulo: inputTitulo.value,
-        descripcion: inputNota.value,
+        titulo: titulo,
+        descripcion: descripcion,
         fecha: new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }),
         importante: false 
     }
+
     notas.push(nota);
     inputTitulo.value = "";
     inputNota.value = "";
-    
-    local_storage();
-    Notas_renderizadas();
+    actualizarApp();
 }
 
-    function Notas_renderizadas (){
-        notas_generadas.innerHTML = ""
-        notas.forEach((nota)=>{
-            const contenedor = document.createElement("article");
-            const titulo = document.createElement("h3");
-            titulo.innerText = nota.titulo;
-            if (nota.importante) {
-                contenedor.style.borderLeftColor = "#f59e0b";
-                contenedor.style.backgroundColor = "#fffbeb";
-            }
-            const texto = document.createElement("p");
-            texto.innerText = nota.descripcion;
-            const fecha = document.createElement("small");
-            fecha.innerText = nota.fecha;
-            const botonImportante = document.createElement("button");
-            botonImportante.innerText = nota.importante ? "Marcar Importante" : "Importante: Si";
-            const botonEliminar = document.createElement("button");
-            botonEliminar.innerText = "Eliminar";
-            
-            botonImportante.addEventListener('click', () =>{
-                nota.importante = !nota.importante
-                local_storage();
-                Notas_renderizadas();
-                
-            });
-            botonEliminar.addEventListener('click', () =>{
-                notas = notas.filter(item => item.id !== nota.id)
-                local_storage();
-                Notas_renderizadas();
-            });
-            contenedor.appendChild(titulo);
-            contenedor.appendChild(texto);
-            contenedor.appendChild(fecha);
-            contenedor.appendChild(botonImportante);
-            contenedor.appendChild(botonEliminar);
-            notas_generadas.appendChild(contenedor);
-        });
-    }
+function renderizarNotas() {
+    contenedorNotas.innerHTML = "";
 
-    function local_storage () {
-        localStorage.setItem('mis_notas', JSON.stringify(notas));
-    }
-
-    function Configuracion (){
-        const notasGuardadas = localStorage.getItem('mis_notas');
-        if (notasGuardadas) {
-            notas = JSON.parse(notasGuardadas);
-            Notas_renderizadas();
+    notas.forEach((nota) => {
+        const contenedor = document.createElement("article");
+        
+        if (nota.importante) {
+            contenedor.classList.add('importante');
         }
+
+        const h3Titulo = document.createElement("h3");
+        h3Titulo.innerText = nota.titulo || "Sin título";
+
+        const pDescripcion = document.createElement("p");
+        pDescripcion.innerText = nota.descripcion;
+        pDescripcion.title = "Haz clic para expandir o contraer"; 
+
+        // Evento para expandir/contraer el texto al hacer clic
+        pDescripcion.addEventListener('click', () => {
+            contenedor.classList.toggle('expandida');
+        });
+
+        const smallFecha = document.createElement("small");
+        smallFecha.innerText = nota.fecha;
+
+        const btnImportante = document.createElement("button");
+        btnImportante.innerText = nota.importante ? "Quitar Importante" : "Marcar Importante";
+        
+        const btnEliminar = document.createElement("button");
+        btnEliminar.innerText = "Eliminar";
+
+        btnImportante.addEventListener('click', () => {
+            toggleImportante(nota.id);
+        });
+
+        btnEliminar.addEventListener('click', () => {
+            eliminarNota(nota.id);
+        });
+
+        if (nota.titulo) contenedor.appendChild(h3Titulo); 
+        contenedor.appendChild(pDescripcion);
+        contenedor.appendChild(smallFecha);
+        contenedor.appendChild(btnImportante);
+        contenedor.appendChild(btnEliminar);
+
+        contenedorNotas.appendChild(contenedor);
+    });
+}
+
+function toggleImportante(id) {
+    notas = notas.map(nota => {
+        if (nota.id === id) {
+            return { ...nota, importante: !nota.importante };
+        }
+        return nota;
+    });
+    actualizarApp();
+}
+
+function eliminarNota(id) {
+    notas = notas.filter(nota => nota.id !== id);
+    actualizarApp();
+}
+function ordenarNotas() {
+    notas.sort((a, b) => {
+        if (a.importante === b.importante) {
+            return b.id - a.id;
+        }
+        return a.importante ? -1 : 1; 
+    });
+}
+
+function actualizarApp() {
+    ordenarNotas();       
+    renderizarNotas();    
+    guardarEnLocalStorage(); 
+}
+
+function guardarEnLocalStorage() {
+    localStorage.setItem('mis_notas_enmanuel', JSON.stringify(notas));
+}
+
+function cargarFromLocalStorage() {
+    const notasGuardadas = localStorage.getItem('mis_notas_enmanuel');
+    if (notasGuardadas) {
+        notas = JSON.parse(notasGuardadas);
+        actualizarApp();
     }
+}
