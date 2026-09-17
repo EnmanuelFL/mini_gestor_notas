@@ -30,7 +30,7 @@ function crearNuevaNota() {
     actualizarApp();
 }
 
-function renderizarNotas() {
+function renderizado() {
     contenedorNotas.innerHTML = "";
 
     notas.forEach((nota) => {
@@ -103,16 +103,16 @@ function ordenarNotas() {
 
 function actualizarApp() {
     ordenarNotas();       
-    renderizarNotas();    
+    renderizado();    
     guardarEnLocalStorage(); 
 }
 
 function guardarEnLocalStorage() {
-    localStorage.setItem('mis_notas_enmanuel', JSON.stringify(notas));
+    localStorage.setItem('mis_notas', JSON.stringify(notas));
 }
 
 function cargarFromLocalStorage() {
-    const notasGuardadas = localStorage.getItem('mis_notas_enmanuel');
+    const notasGuardadas = localStorage.getItem('mis_notas');
     if (notasGuardadas) {
         notas = JSON.parse(notasGuardadas);
         actualizarApp();
